@@ -28,9 +28,36 @@ function convertSentence() //funkcja "nadrzędna", obrabia string
 	
 	//alert(sentence);
 	
-
-	
+	if(sentence.length<20)
+          {
+			let randomNum=Math.floor(Math.random()*10+1)
+			switch(randomNum)
+			{
+				case 1:
+				sentence="OKAZJA "+sentence;
+				break;
+				case 2:
+				sentence="HIT "+sentence;
+				break;
+				case 3:
+				sentence="NOWOŚĆ "+sentence;
+				break;
+				
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:	
+				case 10:
+				sentence="HIT CENOWY "+sentence;
+				break;
+			}
+            
+          }
+		  
 	var strings = sentence.split(" ");
+
 	
 	//alert(strings);
 	
@@ -40,24 +67,33 @@ function convertSentence() //funkcja "nadrzędna", obrabia string
 	for(i=0; i<numOfWords; i++)
 	{
             strings[i]=strings[i].toString();
-			alert(strings[i]);
+			//alert(strings[i]);
 	}
 	
 	for(i=0; i<numOfWords; i++)
 	{
 			
-          if(!isNaN(strings[i])&&strings[i]>100)
+          if(!isNaN(strings[i])&&strings[i]>1000)
           {
             strings[i]="";
           }
-          else if(!isNaN(strings[i])&&strings[i]<100)
+          else if(!isNaN(strings[i])&&strings[i]<1000)
           {
             strings[i]=strings[i];
           }
-          else if(strings[i].includes("."))
-          {
-            strings[i]=strings[i];
-          }
+		  else if(strings[i].toUpperCase().includes("SZT")||strings[i].includes(".")||strings[i].toUpperCase().includes("ML")||strings[i].toUpperCase().includes("CM")||strings[i].toUpperCase().includes("X")&&lookForNums(strings[i]))
+		  {
+			strings[i]=capitalizeFirstLetter(strings[i]);
+		  }
+		  else if(strings[i].toUpperCase()==="SUPER" || strings[i].toUpperCase()==="NOWOŚĆ" || strings[i].toUpperCase()==="KOMFORTOWA" || strings[i].toUpperCase()==="FRESH" || strings[i].toUpperCase()==="NATURAL"  || strings[i].toUpperCase()==="INVISIBLE"|| strings[i].toUpperCase()==="PURE" || strings[i].toUpperCase()==="BIG"|| strings[i].toUpperCase()==="KOMFORTOWY" || strings[i].toUpperCase()==="EXTRA" || strings[i].toUpperCase()==="SIZE" || strings[i].toUpperCase()==="NATURALNY" || strings[i].toUpperCase()==="XL" || strings[i].toUpperCase()==="WYGODNY" || strings[i].toUpperCase()==="KOMFORTOWY")
+		  {
+			  strings[i]=strings[i].toUpperCase();
+		  }
+		  else if(strings[i].toUpperCase()==="OKAZJA" ||strings[i].toUpperCase()==="ZOBACZ")
+		  {
+			  strings[i]=strings[i].toUpperCase();
+			  strings[i]+="!";
+		  }
           else if(strings[i].includes("-"))
           {
             let analyse=strings[i].split("-");
@@ -67,9 +103,12 @@ function convertSentence() //funkcja "nadrzędna", obrabia string
                  {
                    
                  }
-                 else 
+                 else if(lookForNums(analyse[0])&&lookForNums(analyse[1])) 
                  {
                    strings[i]="";
+                 }else 
+                 {
+                   strings[i]=capitalizeFirstLetter(strings[i]);
                  }
              }
               else
@@ -80,7 +119,8 @@ function convertSentence() //funkcja "nadrzędna", obrabia string
           else if(lookForNums(strings[i]))
           {
             strings[i]="";
-          }
+          }else strings[i]=capitalizeFirstLetter(strings[i]);
+		  
 			if(strings[i]!="")
 			{
         resultSentence+=strings[i]+" ";
@@ -117,6 +157,9 @@ function addSpaceAfterDot(string) // dodaje spację po każdej kropce, można ł
 	//alert(string);
 }
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
 function copyToClipboard() //kopiuje element do schowka
 {
